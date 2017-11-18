@@ -3,16 +3,18 @@ package dao.interfaces;
 
 import model.Disc;
 
+import java.util.ArrayList;
+
 public interface DAODisc {
 
     void setDisc (Disc disc);
     void deleteDisc (int id);
-    Disc[] getAllOfDiscs ();
+    ArrayList<Disc> getAllOfDiscs ();
     Disc getDisc (int id);
-    Disc[] getDiscsByRuTitle (String ruTitle);
-    Disc[] getDiscsByEnTitle (String enTitle);
-    Disc[] getDiscsByReleaseYear (int year);
-    Disc[] getDiscsByClient (int clientID);
+    ArrayList<Disc> getDiscsByRuTitle (String ruTitle);
+    ArrayList<Disc> getDiscsByEnTitle (String enTitle);
+    ArrayList<Disc> getDiscsByReleaseYear (int year);
+    ArrayList<Disc> getDiscsByClient (int clientID);
 
     /*
     Disc[] getDiscsByInfo(int numberOfColumn,  String info); - как вариант объединения последних четырех методов в один

@@ -1,12 +1,41 @@
 package model;
 
-public class Disc {
+import java.io.Serializable;
+
+public class Disc implements Serializable {
 
     private int diskID;
     private String russianTitle;
     private String originalTitle;
+    private String description;
+    private double rating;
+    private String actors;
     private short releaseYear;
     private int clientID;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
 
     public int getDiskID() {
         return diskID;
