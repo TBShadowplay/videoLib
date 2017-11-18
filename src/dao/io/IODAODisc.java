@@ -22,21 +22,15 @@ public class IODAODisc implements DAODisc {
 
 
     private void recDiscs(ArrayList<Disc> discs) throws IOException {
-
-        FileOutputStream fos = new FileOutputStream("data\\discs");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-        oos.writeObject(discs);
-        oos.flush();
-        oos.close();
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data\\discs"))){
+            oos.writeObject(discs);
+        }
     }
 
     private ArrayList<Disc> readDiscs() throws IOException, ClassNotFoundException {
-
-        FileInputStream fis = new FileInputStream("data\\discs");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-
-        return (ArrayList<Disc>) ois.readObject();
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data\\discs"))){
+            return (ArrayList<Disc>) ois.readObject();
+        }
     }
 
     @Override
