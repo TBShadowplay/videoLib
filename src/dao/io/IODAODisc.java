@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import static dao.tools.WorkWithStrings.ifContainsSplit;
+
 public class IODAODisc implements DAODisc {
 
     private ArrayList<Disc> discs = new ArrayList<>();
@@ -15,9 +17,7 @@ public class IODAODisc implements DAODisc {
     public IODAODisc() {
         try {
             discs = readDiscs();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -90,22 +90,6 @@ public class IODAODisc implements DAODisc {
         }
 
         return new ArrayList<>(result);
-    }
-
-
-    private boolean ifContainsSplit(String data, String str) {
-
-        str = str.replace(" ", ",");
-        String[] arr = str.split(",");
-        boolean b = false;
-
-        for (String s : arr) {
-            if(!s.isEmpty()){
-                b = data.contains(s);
-            }
-        }
-
-        return b;
     }
 
     public void loadFromFile(String url) {
