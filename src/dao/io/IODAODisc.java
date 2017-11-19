@@ -5,6 +5,8 @@ import model.Disc;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class IODAODisc implements DAODisc {
 
@@ -20,8 +22,7 @@ public class IODAODisc implements DAODisc {
         }
     }
 
-
-    private void recDiscs(ArrayList<Disc> discs) throws IOException {
+    private void saveDiscs(ArrayList<Disc> discs) throws IOException {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("data\\discs"))){
             oos.writeObject(discs);
         }
@@ -35,17 +36,10 @@ public class IODAODisc implements DAODisc {
 
     @Override
     public void setDisc(Disc disc) {
-        try {
-            discs = readDiscs();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        disc.setDiskID(discs.size());
+        disc.setDiskID(discs.get(discs.size()-1).getDiskID()+1);
         discs.add(disc);
         try {
-            recDiscs(discs);
+            saveDiscs(discs);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,62 +47,89 @@ public class IODAODisc implements DAODisc {
 
     @Override
     public void deleteDisc(int id) {
-        try {
-            discs = readDiscs();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         discs.remove(id);
         try {
-            recDiscs(discs);
+            saveDiscs(discs);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public ArrayList<Disc> getAllOfDiscs() {
-        try {
-            discs = readDiscs();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public ArrayList<Disc> getDiscs() {
         return discs;
     }
 
     @Override
     public Disc getDisc(int id) {
-        try {
-            discs = readDiscs();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
         return discs.get(id);
     }
 
     @Override
-    public ArrayList<Disc> getDiscsByRuTitle(String ruTitle) {
-        return null;
+    public ArrayList<Disc> getDiscsOnTheDataSet(String[] data) {
+
+        Set<Disc> result = new LinkedHashSet<>();
+
+        for(int i = 0; i < 9; i++){
+            data[i] = data[i].trim();
+        }
+
+        for (Disc disc: discs) {
+            boolean b = !data[4].isEmpty() && (Integer.parseInt(data[4]) == disc.getReleaseYear());
+            b = b && (!data[5].isEmpty() && ((Double.parseDouble(data[5]) <= disc.getRating())));
+            b = b && !data[0].isEmpty() && ifContainsSplit(disc.getOriginalTitle(), data[0]);
+            b = b && !data[1].isEmpty() && ifContainsSplit(disc.getRussianTitle(), data[1]);
+            b = b && !data[3].isEmpty() && ifContainsSplit(disc.getGenre(), data[3]);
+            b = b && !data[8].isEmpty() && ifContainsSplit(disc.getActors(), data[8]);
+            b = b && !data[2].isEmpty() && ifContainsSplit(disc.getDirector(), data[2]);
+            b = b && !data[6].isEmpty() && ifContainsSplit(disc.getLanguages(), data[6]);
+            b = b && !data[7].isEmpty() && ifContainsSplit(disc.getCountry(), data[7]);
+            if(b){
+                result.add(disc);
+            }
+        }
+
+        return new ArrayList<>(result);
     }
 
-    @Override
-    public ArrayList<Disc> getDiscsByEnTitle(String enTitle) {
-        return null;
+
+    private boolean ifContainsSplit(String data, String str) {
+
+        str = str.replace(" ", ",");
+        String[] arr = str.split(",");
+        boolean b = false;
+
+        for (String s : arr) {
+            if(!s.isEmpty()){
+                b = data.contains(s);
+            }
+        }
+
+        return b;
     }
 
-    @Override
-    public ArrayList<Disc> getDiscsByReleaseYear(int year) {
-        return null;
+    public void loadFromFile(String url) {
+
+        LinkedHashSet<Disc> updatedDiscs = new LinkedHashSet<>(discs);
+        ArrayList<Disc> newDiscs = new ArrayList<>();
+
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(url))){
+            newDiscs = (ArrayList<Disc>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        for (Disc disc : newDiscs){
+            disc.setDiskID(disc.getDiskID()+discs.size());
+            updatedDiscs.add(disc);
+        }
+
+        discs = new ArrayList<>(updatedDiscs);
+        try {
+            saveDiscs(discs);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public ArrayList<Disc> getDiscsByClient(int clientID) {
-        return null;
-    }
 }

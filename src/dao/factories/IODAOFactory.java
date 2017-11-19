@@ -11,7 +11,7 @@ public class IODAOFactory implements DAOFactory {
         return new IODAODisc();
     }
 
-    public DAOClient getDAORenter() {
+    public DAOClient getDAOClient() {
         return new IODAOClient();
     }
 

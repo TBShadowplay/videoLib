@@ -18,7 +18,7 @@ public class IODAOClient implements DAOClient {
     }
 
     @Override
-    public ArrayList<Client> getAllOfClients() {
+    public ArrayList<Client> getClients() {
         return null;
     }
 
@@ -28,17 +28,7 @@ public class IODAOClient implements DAOClient {
     }
 
     @Override
-    public ArrayList<Client> getClientByName(String name) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Client> getClientBySurname(String name) {
-        return null;
-    }
-
-    @Override
-    public Client getClientByPhone(int phone) {
+    public ArrayList<Client> getClientsOnTheDataSet(String[] data) {
         return null;
     }
 }

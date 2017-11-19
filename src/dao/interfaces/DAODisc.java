@@ -9,21 +9,9 @@ public interface DAODisc {
 
     void setDisc (Disc disc);
     void deleteDisc (int id);
-    ArrayList<Disc> getAllOfDiscs ();
+    ArrayList<Disc> getDiscs();
     Disc getDisc (int id);
-    ArrayList<Disc> getDiscsByRuTitle (String ruTitle);
-    ArrayList<Disc> getDiscsByEnTitle (String enTitle);
-    ArrayList<Disc> getDiscsByReleaseYear (int year);
-    ArrayList<Disc> getDiscsByClient (int clientID);
-
-    /*
-    Disc[] getDiscsByInfo(int numberOfColumn,  String info); - как вариант объединения последних четырех методов в один
-    Принимает номер колонки:
-     1. Русское название
-     ...
-     4. ID клиента, взявшего диск.
-
-     На усмотрение. Я хз как будет удобнее) Може вообще у кого будет другая идея реализации.
-     */
+    ArrayList<Disc> getDiscsOnTheDataSet (String[] data); //Принимает массив значений всех полей Disc
+    public void loadFromFile(String url);
 
 }

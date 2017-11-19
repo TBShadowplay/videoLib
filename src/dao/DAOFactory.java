@@ -8,6 +8,6 @@ import dao.interfaces.DAODisc;
 public interface DAOFactory {
 
     DAODisc getDAODisc();
-    DAOClient getDAORenter();
+    DAOClient getDAOClient();
 
 }

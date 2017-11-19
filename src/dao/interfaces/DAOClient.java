@@ -10,12 +10,8 @@ public interface DAOClient {
     void setClient (Client client);
     void deleteClient (int id); /*- метод должен выбрасывать исключение, если у клиента на руках есть диск???
                                     или лучше делать проверку? */
-    ArrayList<Client> getAllOfClients ();
+    ArrayList<Client> getClients();
     Client getClient (int id);
-    ArrayList<Client> getClientByName (String name);
-    ArrayList<Client> getClientBySurname (String name);
-    Client getClientByPhone (int phone);
-
-    //Client[] getClientByInfo(int numberOfColumn,  String info); - аналогично описанному в интерфейсе DAODisc
+    ArrayList<Client> getClientsOnTheDataSet (String[] data); //Принимает массив значений всех полей Disc
 
 }

@@ -11,7 +11,7 @@ public class RDBDAOFactory implements DAOFactory {
         return new RDBDAODisc();
     }
 
-    public DAOClient getDAORenter() {
+    public DAOClient getDAOClient() {
         return new RDBDAOClient();
     }
 
